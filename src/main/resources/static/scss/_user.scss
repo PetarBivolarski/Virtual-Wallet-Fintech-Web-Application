@@ -1,0 +1,82 @@
+//
+// user.scss
+//
+.login-page {
+    font-size: 15px;
+    .forgot-pass {
+        z-index: 99;
+        position: relative;
+        font-size: 13px;
+    }
+} 
+
+.cover-user {
+    .container-fluid{
+        max-width: 100%;
+        .padding-less.img {
+            background: scroll center no-repeat;
+            background-size: cover;
+            position: absolute;
+            height: 100%;
+        }
+    }    
+    .cover-user-img {
+        height: 100vh;
+    }
+}
+
+
+//page-profile.html(Pages > Account)
+.bg-profile {
+    padding: 100px 0;
+    @include home-common();
+    .public-profile {
+        top: 175px;
+    }
+    .profile-icons {
+        li {
+            a {
+                font-size: 20px;
+                height: 40px;
+                width: 40px;
+                line-height: 38px;
+                color: $gray-600;
+                border: 1px solid $gray-300;
+            }
+        }
+    }
+}
+
+@media (min-width: 1025px) {
+    .cover-user {
+        .cover-user-img{
+            padding: 0px 20%;
+        }  
+    }
+}
+
+@media (max-width: 768px) {
+    .cover-user {
+        .padding-less {
+            position: relative !important;
+            height: 400px !important;
+        }
+        .cover-user-content {
+            text-align: left !important;
+        }    
+        .cover-user-img {
+            align-items: start !important;
+        }
+    }
+}
+
+@media (max-width:768px) {
+    .cover-user {
+        .cover-user-img {
+            height: auto !important;
+        }
+        .cover-my-30 {
+            margin: 30px 0;
+        }
+    }
+}

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Create Transaction: Send Money to Your Friends</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout  :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div th:replace="fragments/layout  :: header"></div>
+
+<!-- Hero Start -->
+<section class="bg-home">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="mr-lg-5">
+                            <img th:src="@{/images/user/login.png}" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div th:if="${user.blocked} == false">
+                            <div class="bg-white shadow rounded p-4">
+                                <form action="#" th:action="@{/transaction/create-external}" method="get"
+                                      class="format-phone-number-before-submission">
+                                    <h3 th:text="#{transaction.create.findRecipient}"
+                                        class="title-with-margin"></h3>
+                                    <div class="row mt-4">
+                                        <div class="radio-buttons col-md-12">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <div class="form-group">
+                                                    <input type="radio" id="customRadio"
+                                                           name="contactType"
+                                                           class="custom-control-input"
+                                                           value="username"
+                                                           checked="checked">
+                                                    <label class="custom-control-label" for="customRadio"
+                                                           th:text="#{user.header.username}"></label></div>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <div class="form-group"><input type="radio"
+                                                                               id="customRadio1"
+                                                                               name="contactType"
+                                                                               class="custom-control-input"
+                                                                               value="email">
+                                                    <label class="custom-control-label" for="customRadio1"
+                                                           th:text="#{user.header.email}"></label></div>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <div class="form-group"><input type="radio" id="customRadio2"
+                                                                               name="contactType"
+                                                                               class="custom-control-input"
+                                                                               value="phone">
+                                                    <label class="custom-control-label" for="customRadio2"
+                                                           th:text="#{user.header.phone}"></label></div>
+                                            </div>
+                                        </div>
+                                        <div id="search-form-country-code" class="col-md-4" style="display:none">
+                                            <div class="form-group position-relative">
+                                                <label th:text="#{user.header.countryCode}" for="country-code"></label>
+                                                <select id="country-code" class="form-control font-weight-bold" required
+                                                        name="countryCode">
+                                                    <option th:each="country: ${T(a16team1.virtualwallet.utilities.Country).values()}"
+                                                            th:value="${country.getCode()}"
+                                                            th:text="${country.toString()}">BG (+359)
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div id="contact-input-parent-column" class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="contact"
+                                                       class="contactInfo">Enter username</label>
+                                                <i class="mdi mdi-account ml-3 icons"></i>
+                                                <input id="contact" type="text" name="contact" class="form-control pl-5"
+                                                       th:placeholder="#{user.header.username}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input class="btn btn-primary" type="submit" value="Search">
+                                    <div th:if="${noSearchResultsError != null}"
+                                         class="mt-4 alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.transaction.general}"> </span>
+                                        <span class="alert-content" th:text="${noSearchResultsError}"></span>
+                                    </div>
+                                    <div th:if="${error != null}"
+                                         class="mt-4 alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.constraintViolation.error}"> </span>
+                                        <span class="alert-content" th:text="${error}"></span>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('externalTransactionDto.transferAmount')}"
+                                         class="mt-4 alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.amount}"> </span>
+                                        <span class="alert-content"
+                                              th:errors="${externalTransactionDto.transferAmount}"></span>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('externalTransactionDto.description')}"
+                                         class="mt-4 alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.description}"> </span>
+                                        <span class="alert-content"
+                                              th:errors="${externalTransactionDto.description}"></span>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="table-responsive bg-white shadow rounded mt-4">
+                                <table class="table mb-0 table-center"
+                                       th:if="${recipientListDto != null && !recipientListDto.list.isEmpty()}">
+                                    <thead>
+                                    <tr>
+                                        <th th:text="#{user.header.username}">Username</th>
+                                        <th th:text="#{user.header.photo}">Photo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="recipient : ${recipientListDto.list}">
+                                        <td class="align-middle">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <div class="form-group">
+                                                    <input type="radio"
+                                                           th:id="'recipient' + ${recipient.id}"
+                                                           name="recipient"
+                                                           class="custom-control-input"
+                                                           style="z-index: 1"
+                                                           th:value="${recipient.id}">
+                                                    <label th:for="'recipient' + ${recipient.id}"
+                                                           class="custom-control-label pl-3"
+                                                           th:text="${recipient.username}">Username</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img th:if="${recipient.photo} != null"
+                                                 th:src="@{'data:image/jpeg;base64,' + ${recipient.photo}}"
+                                                 th:alt="#{user.profile.image}"
+                                                 class="avatar avatar-small rounded-pill shadow d-block mx-auto">
+                                            <img th:unless="${recipient.photo} != null"
+                                                 th:src="@{/images/empty-profile-image.png}"
+                                                 th:alt="#{user.no.profile.image}"
+                                                 class="avatar avatar-small rounded-pill shadow d-block mx-auto">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="p-4"
+                                     th:if="${recipientListDto} != null AND ${recipientListDto.totalPages > 1}">
+                                    <ul class="pagination mb-0 list-unstyled">
+                                        <li th:each="i : ${#numbers.sequence(recipientListDto.beginIndex, recipientListDto.endIndex)}">
+                                            <a th:href="@{/transaction/create-external/(pageSize=${recipientListDto.pageSize}, page=${i}, contactType=${contactType}, contact=${contact})}"
+                                               th:text="${i}"
+                                               th:class="'pr-3 pl-3 pt-2 pb-2' + (${i == recipientListDto.page} ? ' active bg-primary text-light' : '')"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="transaction-data" class="bg-white shadow rounded mt-4 p-4" style="display:none">
+                                <form id="external-transaction-form" th:action="@{/transaction/create-external}"
+                                      th:object="${externalTransactionDto}" method="post">
+                                    <input type="hidden" th:field="*{senderUsername}">
+                                    <input type="hidden" id="recipient-id" th:field="*{recipientId}">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wallet"
+                                                       th:text="#{transaction.create.chooseWallet}"></label>
+                                                <select id="wallet" class="form-control" name="senderWalletId">
+                                                    <option th:each="wallet : ${wallets}"
+                                                            th:value="${wallet.id}"
+                                                            th:text="${wallet.name}"
+                                                            th:selected="${wallet.id == user.getDefaultWallet().getId()}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="amount" th:text="#{transaction.create.amountText}"></label>
+                                                <i class="mdi mdi-send ml-3 icons"></i>
+                                                <input type="number" step=".01" id="amount" th:field="*{transferAmount}"
+                                                       class="form-control pl-5" required="required"
+                                                       th:placeholder="#{transaction.create.amountPlaceholder}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="description"
+                                                       th:text="#{transaction.create.descriptionText}"></label>
+                                                <i class="mdi mdi-comment-text ml-3 icons"></i>
+                                                <input type="text" id="description" th:field="*{description}"
+                                                       class="form-control pl-5"
+                                                       th:placeholder="#{transaction.create.descriptionPlaceholder}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input class="btn btn-light" type="reset" th:value="#{transaction.clearButton}"/>
+                                    <a type="submit" class="submitBnt btn btn-primary"
+                                       data-toggle="modal" th:text="#{transaction.submitButton}"
+                                       data-target="#create-transaction"></a>
+                                    <div class="modal fade" id="create-transaction" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalCenterTitle"
+                                         style="display: none;" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content rounded shadow border-0">
+                                                <div class="modal-header"><h5 class="modal-title"
+                                                                              id="exampleModalCenterTitle"
+                                                                              th:text="#{transaction.confirmDetailsTitle}"></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close"><span
+                                                            aria-hidden="true">×</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="p-4">
+                                                        <div class="row"><p class="text-muted mb-0"
+                                                                            th:text="#{transaction.confirmDetailsDescription}"></p>
+                                                        </div>
+                                                        <div class="form-group position-relative margin-top">
+                                                            <label for="recipient-confirm"
+                                                                   th:text="#{transaction.confirmRecipient}"></label>
+                                                            <i class="mdi mdi-account ml-3 icons"></i>
+                                                            <input type="text" id="recipient-confirm"
+                                                                   class="form-control pl-5"
+                                                                   th:placeholder="${contact}" readonly>
+                                                        </div>
+                                                        <div class="form-group position-relative">
+                                                            <label for="wallet-confirm"
+                                                                   th:text="#{transaction.create.chooseWallet}"></label>
+                                                            <i class="mdi mdi-wallet ml-3 icons"></i>
+                                                            <input type="text" id="wallet-confirm"
+                                                                   class="form-control pl-5" readonly>
+                                                        </div>
+                                                        <div class="form-group position-relative">
+                                                            <label for="amount-confirm"
+                                                                   th:text="#{transaction.create.amountText}"></label>
+                                                            <i class="mdi mdi-send ml-3 icons"></i>
+                                                            <input type="number" step=".01" id="amount-confirm"
+                                                                   class="form-control pl-5" readonly>
+                                                        </div>
+                                                        <div class="form-group position-relative">
+                                                            <label for="description-confirm"
+                                                                   th:text="#{transaction.create.descriptionText}"></label>
+                                                            <i class="mdi mdi-comment-text ml-3 icons"></i>
+                                                            <input type="text" id="description-confirm"
+                                                                   class="form-control pl-5" readonly>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-outline-light"
+                                                           th:text="#{transaction.editButton}" data-dismiss="modal"
+                                                           aria-label="Close"></a>
+                                                        <input class="btn btn-primary" type="submit"
+                                                               th:value="#{transaction.submitButton}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+                                </form>
+                            </div>
+                        </div>
+                        <div th:unless="${user.blocked} == false">
+                            <div class="alert alert-warning">
+                                <h4 class="mb-4" th:text="#{account.blocked.title}"></h4>
+                                <span th:text="#{account.blocked.textOne}"></span>
+                                <div class="margin-top">
+                                    <span th:text="#{account.blocked.textTwo}"></span>
+                                    <span th:text="#{account.blocked.textThree}"
+                                          class="text-light font-weight-bold"></span>
+                                    <span th:text="#{account.blocked.textFour}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

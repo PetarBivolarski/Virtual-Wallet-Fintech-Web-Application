@@ -1,0 +1,260 @@
+//
+// blog.scss
+//
+.blog {
+    transition: all 0.3s ease;
+    .overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0; 
+        transition: all 0.5s ease;
+    }
+    .content {
+        h4 {
+            line-height: 1.2;
+        }
+        .title {
+            font-size: 20px;
+            transition: all 0.5s ease;
+            &:hover {
+                color: $primary !important;
+            }
+        }
+        .post-meta {
+            .like, .comments, .readmore {
+                font-size: 15px;
+                transition: all 0.5s ease;
+            }
+            .like {
+                &:hover {
+                    color: $danger !important;
+                }
+            }
+            .comments {
+                &:hover {
+                    color: $success !important;
+                }
+            }
+            .readmore {
+                &:hover {
+                    color: $primary !important;
+                }
+            }
+        }
+    }
+    .author {
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        z-index: 1;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+    &:hover {
+        transform: translateY(-10px);
+        .overlay {
+            opacity: 0.4;
+        }
+        .author {
+            opacity: 1;
+        }
+    }
+}
+
+//Sidebar
+.sidebar {
+    .widget {
+        .widget-search {
+            form {
+                position: relative;
+            }
+        }
+        .widget-search, .searchform { 
+            input[type="text"] {
+                box-shadow: none;
+                padding: 12px 15px;
+                height: 45px;
+                font-size: 14px;
+                display: block;
+                width: 100%;
+                outline: none !important;
+                padding-right: 45px;
+            }
+            input[type="submit"] {
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                opacity: 0;
+                width: 40px;
+                height: 40px;
+            }
+        }
+        .widget-search {
+            .searchform:after {
+                content: "\F349";
+                position: absolute;
+                font-family: "Material Design Icons";
+                right: 16px;
+                top: 15px;
+                font-size: 20px;
+                line-height: 20px;
+                pointer-events: none;
+            }
+        }
+        .widget-title {
+            font-size: 18px;
+        }
+        
+        .blog-catagories{
+            li {
+                padding-bottom: 10px;
+                &:last-child {
+                    padding-bottom: 0;
+                }
+                a, span {
+                    font-size: 15px;
+                }
+                a {
+                    color: $dark;
+                    transition: all 0.5s ease;
+                    &:hover {
+                        color: $primary;
+                    }
+                }
+            }
+        }      
+        .post-recent {
+            padding-bottom: 15px;
+            &:last-child {
+                padding-bottom: 0;
+            }
+            .post-recent-thumb {
+                width: 25%;
+            }
+            
+            .post-recent-content {
+                width: 75%;
+                padding-left: 10px;
+                a {
+                    display: block;
+                    color: $dark;
+                    font-size: 15px;
+                    transition: all 0.5s ease;
+                    &:hover {
+                        color: $primary;
+                    }
+                }
+                span {
+                    font-size: 13px;
+                }
+            }
+        }
+        .tagcloud {
+            > a {
+                background: $gray-200;
+                color: $dark;
+                display: inline-block;
+                font-size: 9px;
+                letter-spacing: 1px;
+                margin: 5px 10px 5px 0;
+                padding: 8px 12px 7px;
+                text-transform: uppercase;
+                transition: all 0.5s ease;
+                font-weight: 600;
+                &:hover {
+                    background: $primary;
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+// single blog
+.page-title {
+    font-size: 20px;
+}
+
+.media-list {
+    .comment-desk {
+        .media-heading {
+            font-size: 16px;
+        }
+        a {
+            &:hover{
+                color: $primary !important;
+            }
+        }
+    }
+    .sub-comment {
+        border-left: 2px dashed $gray-300;
+    }
+}
+
+//Jobs and Careers
+.job-content {
+    transition: all 0.5s ease;
+    &:before {
+        content: "";
+        position: absolute;
+        top: -45px;
+        right: -80px;
+        width: 230px;
+        height: 130px;
+        transform: rotate(45deg);
+        background: lighten($primary, 45%);
+        z-index: -1;
+    }
+    .head {
+        .title {
+            font-size: 18px;
+            &:hover {
+                color: $primary !important;
+            }
+        }
+        .firm {
+            &:hover {
+                color: $danger !important;
+            }
+        }
+    }
+    .job-image {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        margin: 0 auto;
+        z-index: -2;
+        transition: all 0.5s ease;
+    }
+    &:hover {
+        box-shadow: $shadow;
+        transform: translateY(-5px);
+        .job-image {
+            opacity: 0.05;
+        }
+    }
+}
+
+//page-job-candindate.html, page-job-company.html
+@media (min-width: 1024px) {
+    .job-profile {
+        top: -378px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .job-profile {
+        top: -338px;
+    }
+}
+
+@media (max-width: 767px) {
+    .company-logo {
+        float: none !important;
+        text-align: left !important;
+    }
+}

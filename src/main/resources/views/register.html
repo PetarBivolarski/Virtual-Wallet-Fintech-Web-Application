@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Register an account at Virtual Wallet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout  :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div class="back-to-home rounded d-none d-sm-block">
+    <a href="/" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+</div>
+
+<!-- Hero Start -->
+<section class="bg-home">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="mr-lg-5">
+                            <img src="images/user/signup.png" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div class="login_page bg-white shadow rounded p-4">
+                            <div class="text-center">
+                                <h4 class="mb-4" th:text="#{registration.page.title}"></h4>
+                            </div>
+                            <form class="login-form" th:action="@{/registration(invitationToken=${invitationToken})}" th:object="${user}" method="post">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div th:if="${duplicateUser != null}" class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.duplication.error}"> </span>
+                                            <span class="alert-content" th:text="${duplicateUser}"></span>
+                                        </div>
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.username}"></label><span class="text-danger"> *</span>
+                                            <i class="mdi mdi-account ml-3 icons"></i>
+                                            <input type="text" th:field="*{username}" class="form-control pl-5"
+                                                   placeholder="Username" name="username" required="">
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('username')}"
+                                             class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.username.error}"> </span>
+                                            <span class="alert-content" th:errors="*{username}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.email}"></label><span
+                                                class="text-danger"> *</span>
+                                            <i class="mdi mdi-email ml-3 icons"></i>
+                                            <input type="email" th:field="*{email}" class="form-control pl-5"
+                                                   placeholder="Email" name="email" required="">
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('email')}"
+                                             class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.email.error}"> </span>
+                                            <span class="alert-content" th:errors="*{email}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.countryCode}" for="country-code"></label>
+                                            <select id="country-code" class="form-control font-weight-bold" required
+                                                    name="countryCode">
+                                                <option th:each="country: ${T(a16team1.virtualwallet.utilities.Country).values()}"
+                                                        th:value="${country.getCode()}"
+                                                        th:text="${country.toString()}">BG (+359)
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-8">
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.phone}"></label><span
+                                                class="text-danger"> *</span>
+                                            <i class="mdi mdi-phone ml-3 icons"></i>
+                                            <input type="tel" th:field="*{localPhoneNumber}" class="form-control pl-5"
+                                                   placeholder="Phone" name="phoneNumber" required="">
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('localPhoneNumber')}"
+                                             class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.phoneNumber.error}"> </span>
+                                            <span class="alert-content" th:errors="*{localPhoneNumber}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.password}"></label><span
+                                                class="text-danger"> *</span>
+                                            <i class="mdi mdi-key ml-3 icons"></i>
+                                            <input type="password" th:field="*{password}" class="form-control pl-5"
+                                                   placeholder="Password" required="">
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('password')}"
+                                             class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.password.error}"> </span>
+                                            <span class="alert-content" th:errors="*{password}"></span>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('global')}"
+                                             class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.password.error}"> </span>
+                                            <span class="alert-content" th:errors="*{global}"></span>
+                                        </div>
+                                        <div th:if="${passwordMismatch != null}" class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{registration.password.error}"> </span>
+                                            <span class="alert-content" th:text="${passwordMismatch}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group position-relative">
+                                            <label th:text="#{user.header.confirmPassword}"></label><span
+                                                class="text-danger"> *</span>
+                                            <i class="mdi mdi-key ml-3 icons"></i>
+                                            <input type="password" class="form-control pl-5"
+                                                   th:field="*{confirmedPassword}"
+                                                   placeholder="Confirm Password" name="passwordConfirmation"
+                                                   required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input required="" type="checkbox" class="custom-control-input"
+                                                       id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1"
+                                                       th:text="#{registration.page.confirmLegalAge}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary w-100" value="Register">
+                                    </div>
+                                    <div class="mx-auto">
+                                        <p class="mb-0 mt-3"><small class="text-dark mr-2"
+                                                                    th:text="#{registration.page.alreadyHaveAnAccount}"></small>
+                                            <a th:href="@{/login}" class="text-dark font-weight-bold"
+                                               th:text="#{registration.page.logIn}"></a></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

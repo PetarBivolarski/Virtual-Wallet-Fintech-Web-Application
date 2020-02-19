@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Registration Confirmed - Virtual Wallet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout  :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div class="back-to-home rounded d-none d-sm-block">
+    <a href="/" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+</div>
+
+<!-- Hero Start -->
+<section class="bg-home">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="mr-lg-5">
+                            <img src="images/user/signup.png" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div class="alert alert-success">
+                            <h4 class="mb-4" th:text="#{registration.confirmed.title}"></h4>
+                            <p th:text="#{registration.confirmed.description}"></p>
+                            <span th:text="#{registration.confirmed.description.two}"></span> <a th:href="@{/login}" th:text="#{registration.confirmed.link}" class="text-light font-weight-bold"></a>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

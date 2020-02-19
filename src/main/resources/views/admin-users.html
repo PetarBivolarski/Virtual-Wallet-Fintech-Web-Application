@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel: Users List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{admin.users.list.title}"></h4>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div th:if="${noUsers} != null">
+            <h2 th:text="${noRegisteredUsers}" th:align="center">No users</h2>
+        </div>
+        <div th:unless="${noUsers} != null">
+            <h3 th:class="margin-top" th:text="#{admin.users.filter}">Filter users by:</h3>
+            <div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <form action="#" th:action="@{/admin/users}" method="get"
+                      class="margin-top-extra format-phone-number-before-submission">
+                    <div th:if="${userNotFound != null}" class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.recipientNotFound}"> </span>
+                        <span class="alert-content" th:text="${userNotFound}"></span>
+                    </div>
+                    <div th:if="${invalidValue != null}" class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{admin.users.illegalValue}"> </span>
+                        <span class="alert-content" th:text="${invalidValue}"></span>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="radio-buttons col-md-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <div class="form-group">
+                                    <input type="radio" id="customRadio"
+                                           name="filterType"
+                                           class="custom-control-input"
+                                           value="username"
+                                           checked="checked">
+                                    <label class="custom-control-label" for="customRadio"
+                                           th:text="#{user.header.username}"></label></div>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <div class="form-group"><input type="radio"
+                                                               id="customRadio1"
+                                                               name="filterType"
+                                                               class="custom-control-input"
+                                                               value="email">
+                                    <label class="custom-control-label" for="customRadio1"
+                                           th:text="#{user.header.email}"></label></div>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <div class="form-group"><input type="radio" id="customRadio2"
+                                                               name="filterType"
+                                                               class="custom-control-input"
+                                                               value="phone">
+                                    <label class="custom-control-label" for="customRadio2"
+                                           th:text="#{user.header.phone}"></label></div>
+                            </div>
+                        </div>
+                        <div id="search-form-country-code" class="col-md-4" style="display:none">
+                            <div class="form-group position-relative">
+                                <label th:text="#{user.header.countryCode}" for="country-code"></label>
+                                <select id="country-code" class="form-control font-weight-bold" required
+                                        name="countryCode">
+                                    <option th:each="country: ${T(a16team1.virtualwallet.utilities.Country).values()}"
+                                            th:value="${country.getCode()}"
+                                            th:text="${country.toString()}">BG (+359)
+                                    </option>
+                                </select>
+                            </div>
+                        </div><!--end col-->
+                        <div id="contact-input-parent-column" class="col-md-12">
+                            <div class="form-group position-relative">
+                                <label for="contact"
+                                       class="contactInfo">Enter username</label>
+                                <i class="mdi mdi-account ml-3 icons"></i>
+                                <input id="contact" type="text" name="contact" class="form-control pl-5"
+                                       th:placeholder="#{user.header.username}">
+                            </div>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Search">
+                    <a class="btn btn-outline-primary" th:href="@{/admin/users}">View all</a>
+                </form>
+            </div>
+            <div class="table-responsive bg-white shadow rounded mt-4">
+                <table class="table mb-0 table-center" th:if="${userNotFound == null} AND ${invalidValue == null}">
+                    <thead>
+                    <tr>
+                        <th th:text="#{user.header.username}">Username</th>
+                        <th th:text="#{user.header.email}">Email</th>
+                        <th th:text="#{user.header.phone}">Phone</th>
+                        <th th:text="#{user.header.block.unblock}">Block or unblock</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${paginatedUserListDto.list}">
+                        <td th:text="${user.username}">Username</td>
+                        <td th:text="${user.email}">Email</td>
+                        <td th:text="${user.phoneNumber}">Phone</td>
+                        <td th:if="${user.blocked} == true">
+                            <form th:action="@{'/admin/users/' + ${user.id} + '/unblock'}" method="post">
+                                <input type="hidden" name="currentPageNumber" th:value="${paginatedUserListDto.page}">
+                                <input type="hidden" name="currentPageSize" th:value="${paginatedUserListDto.pageSize}">
+                                <input type="hidden" name="filterType" th:value="${filterType}">
+                                <input type="hidden" name="contact" th:value="${contact}">
+                                <input class="btn btn-primary" th:type="submit" th:value="#{admin.unblock}">
+                            </form>
+                        </td>
+                        <td th:unless="${user.blocked} == true">
+                            <form th:action="@{'/admin/users/' + ${user.id} + '/block'}" method="post">
+                                <input type="hidden" name="currentPageNumber" th:value="${paginatedUserListDto.page}">
+                                <input type="hidden" name="currentPageSize" th:value="${paginatedUserListDto.pageSize}">
+                                <input type="hidden" name="filterType" th:value="${filterType}">
+                                <input type="hidden" name="contact" th:value="${contact}">
+                                <input class="btn btn-danger" th:type="submit" th:value="#{admin.block}">
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4" th:if="${paginatedUserListDto} != null AND ${paginatedUserListDto.totalPages > 0}">
+                <ul class="pagination mb-0 list-unstyled">
+                    <li th:each="i : ${#numbers.sequence(paginatedUserListDto.beginIndex, paginatedUserListDto.endIndex)}">
+                        <a th:href="@{/admin/users/(size=${paginatedUserListDto.pageSize}, page=${i}, filterType=${filterType}, contact=${contact})}"
+                           th:text="${i}"
+                           th:class="'pr-3 pl-3 pt-2 pb-2' + (${i == paginatedUserListDto.page} ? ' active bg-primary text-light' : '')"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+
+</body>
+</html>
+

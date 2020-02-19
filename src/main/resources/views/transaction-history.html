@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{transactions.history.title}"></h4>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="p-4">
+            <form id="query-form" th:action="@{/user/transaction-history}" method="get">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group position-relative">
+                            <label for="start-date" th:text="#{transaction.history.startDate}">Start date<span
+                                    class="text-danger">*</span></label>
+                            <i class="mdi mdi-calendar ml-3 icons"></i>
+                            <input name="startDate" id="start-date" type="date" th:value="${startDate}"
+                                   class="form-control pl-5">
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-6">
+                        <div class="form-group position-relative">
+                            <label for="end-date" th:text="#{transaction.history.endDate}">End date<span
+                                    class="text-danger">*</span></label>
+                            <i class="mdi mdi-calendar ml-3 icons"></i>
+                            <input name="endDate" id="end-date" type="date" th:value="${endDate}"
+                                   class="form-control pl-5">
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <div class="form-group position-relative">
+                            <label for="counterparty-username" th:text="#{transaction.history.counterparty}">Counterparty
+                                username</label>
+                            <i class="mdi mdi-account ml-3 icons"></i>
+                            <input name="counterparty" id="counterparty-username" type="text" th:value="${counterparty}"
+                                   class="form-control pl-5" th:placeholder="#{transaction.history.counterparty}">
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <div class="form-group position-relative">
+                            <label th:text="#{transaction.history.direction}"></label>
+                            <div class="p-2">
+                                <div class="form-check form-check-inline">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="direction-incoming" value="incoming"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label" for="direction-incoming"
+                                                   th:text="#{transaction.history.incoming}">Incoming</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="direction-outgoing" value="outgoing"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label" for="direction-outgoing"
+                                                   th:text="#{transaction.history.outgoing}">Outgoing</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input name="direction" type="hidden" th:value="${direction.name()}">
+                    </div>
+
+                    <span id="amount-asc-or-desc" th:text="${amount}" hidden="hidden"></span>
+                    <div class="col-md-6 pt-1 pb-3 sort-criterion">
+                        <div class="custom-control custom-switch">
+                            <div class="form-group">
+                                <input type="checkbox" id="sort-by-amount" class="custom-control-input" value="amount">
+                                <label class="custom-control-label" for="sort-by-amount"
+                                       th:text="#{transaction.history.sortByAmount}">Sort by amount</label>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <div class="form-group">
+                                <input type="radio" id="sort-by-amount-ascending" name="amount" value="asc"
+                                       class="custom-control-input" checked="checked" disabled="disabled">
+                                <label class="custom-control-label" for="sort-by-amount-ascending"
+                                       th:text="#{transaction.history.ascending}">Ascending</label>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <div class="form-group">
+                                <input type="radio" id="sort-by-amount-descending" name="amount" value="desc"
+                                       class="custom-control-input" disabled="disabled">
+                                <label class="custom-control-label" for="sort-by-amount-descending"
+                                       th:text="#{transaction.history.descending}">Descending</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span id="date-asc-or-desc" th:text="${date}" hidden="hidden"></span>
+                    <div class="col-md-6 pt-1 pb-3 sort-criterion">
+                        <div class="custom-control custom-switch">
+                            <div class="form-group">
+                                <input type="checkbox" id="sort-by-date" class="custom-control-input" value="date">
+                                <label class="custom-control-label" for="sort-by-date"
+                                       th:text="#{transaction.history.sortByDate}">Sort by date</label>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <div class="form-group">
+                                <input type="radio" id="sort-by-date-ascending" name="date" value="asc"
+                                       class="custom-control-input" checked="checked" disabled="disabled">
+                                <label class="custom-control-label" for="sort-by-date-ascending"
+                                       th:text="#{transaction.history.ascending}">Ascending</label>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <div class="form-group">
+                                <input type="radio" id="sort-by-date-descending" name="date" value="desc"
+                                       class="custom-control-input" disabled="disabled">
+                                <label class="custom-control-label" for="sort-by-date-descending"
+                                       th:text="#{transaction.history.descending}">Descending</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end row-->
+                <div class="row">
+                    <div class="col-sm-12 text-center" th:if="${error != null}">
+                        <div class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.transactionHistoryError}"> </span>
+                            <span class="alert-content" th:text="${error}"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <input type="submit" id="submit" class="btn btn-primary"
+                               th:value="#{transaction.history.submitQuery}">
+                    </div><!--end col-->
+                </div><!--end row-->
+            </form><!--end form-->
+        </div>
+        <div class="p-4" th:if="!${transactions.isEmpty()}">
+            <div class="table-responsive bg-white shadow rounded">
+                <table class="table mb-0 table-center">
+                    <thead>
+                    <tr>
+                        <th th:text="#{transaction.history.date}">Date</th>
+                        <th th:text="#{transaction.history.amount}">Amount</th>
+                        <th th:text="#{transaction.history.source}">Source</th>
+                        <th th:text="#{transaction.history.destination}">Destination</th>
+                        <th th:text="#{transaction.history.description}">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="transaction: ${transactions}">
+                        <td th:text="${transaction.dateTime} ? ${#dates.format(transaction.dateTime, 'MM/dd/yyyy HH:mm')} : #{value.NA}">
+                            2020-01-28
+                        </td>
+                        <td th:text="${transaction.senderInstrument.owner.id == user.id && transaction.recipientInstrument.owner.id != user.id} ? '-' + ${transaction.transferAmount} : '+' + ${transaction.transferAmount}" th:class="${transaction.senderInstrument.owner.id == user.id && transaction.recipientInstrument.owner.id != user.id ? 'outgoing-style transactions-amount-format' : (transaction.senderInstrument.owner.id != user.id && transaction.recipientInstrument.owner.id == user.id ? 'incoming-style transactions-amount-format' : 'funding-style transactions-amount-format')}">
+                            500.34
+                        </td>
+                        <td th:text="${transaction.senderInstrument.owner.username + (transaction.senderInstrument.owner.id == user.id ? '/' + transaction.senderInstrument.name : '')}">
+                            Jane/Jane's wallet
+                        </td>
+                        <td th:text="${transaction.recipientInstrument.owner.username + (transaction.recipientInstrument.owner.id == user.id ? '/' + transaction.recipientInstrument.name : '')}">
+                            John/John's wallet
+                        </td>
+                        <td th:text="${transaction.description} ? ${transaction.description} : #{value.NA}">Reason for
+                            transfer
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="p-4" th:if="${lastPage > 0}">
+                    <ul class="pagination mb-0 list-unstyled">
+                        <li th:each="i : ${#numbers.sequence(beginIndex, endIndex)}">
+                            <a th:href="@{/user/transaction-history(startDate=${startDate}, endDate=${endDate}, counterparty=${counterparty}, direction=${direction}, date=${date}, amount=${amount}, pageSize=${pageSize}, page=${i})}"
+                               th:text="${i}"
+                               th:class="'pr-3 pl-3 pt-2 pb-2' + (${i == pageNumber} ? ' active bg-primary text-light' : '')"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container" th:unless="${noTransactions} == null">
+                <div class="row justify-content-center">
+                    <h3 th:text="${noTransactions}"></h3>
+                </div>
+            </div>
+</section>
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+
+</body>
+</html>
+

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="css-sheets">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <!-- Magnific -->
+    <link href="css/magnific-popup.css" th:href="@{/css/magnific-popup.css}" rel="stylesheet" type="text/css"/>
+    <!-- Icons -->
+    <link href="css/materialdesignicons.min.css" th:href="@{/css/materialdesignicons.min.css}" rel="stylesheet"
+          type="text/css"/>
+    <!-- Slider -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css" th:href="@{/css/owl.carousel.min.css}"/>
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" th:href="@{/css/owl.theme.default.min.css}"/>
+    <!-- Main css -->
+    <link href="css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+</div>
+
+<div th:fragment="header">
+    <!-- Navbar STart -->
+    <header id="topnav" class="defaultscroll sticky bg-white">
+        <div class="container">
+            <!-- Logo container-->
+            <div>
+                <a class="logo" href="/">Virtual Wallet<span class="text-primary">.</span></a>
+            </div>
+            <div class="main-button">
+                <a th:href="@{/registration}" sec:authorize="!isAuthenticated()" class="btn btn-outline-primary"
+                   th:text="#{header.menu.signup}"></a>
+                <a th:href="@{/login}" sec:authorize="!isAuthenticated()" class="btn btn-primary"
+                   th:text="#{header.menu.login}"></a>
+                <div class="hide-mobile">
+                    <form class="logout-form" sec:authorize="isAuthenticated()" th:action="@{/perform-logout}"
+                          method="post"><input
+                            class="btn btn-outline-primary" th:type="submit" th:value="Logout"></form>
+                    <a th:href="@{/user/profile}" sec:authorize="isAuthenticated()" class="btn btn-primary"
+                       th:text="#{header.menu.myProfile}"></a></div>
+            </div><!--end login button-->
+            <!-- End Logo container-->
+            <div class="menu-extras" sec:authorize="isAuthenticated()">
+                <div class="menu-item">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+            <div id="navigation" sec:authorize="isAuthenticated()">
+                <!-- Navigation Menu-->
+                <ul class="navigation-menu">
+                    <li><a href="/" th:text="#{header.menu.home}" sec:authorize="!hasRole('ADMIN')">Home</a></li>
+                    <li class="has-submenu" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{#}" th:text="#{header.menu.admin}">Admin</a><span
+                            class="menu-arrow"></span>
+                        <ul class="submenu">
+                            <li><a th:href="@{/admin/users}" th:text="#{admin.menu.viewUsers}">View users</a></li>
+                            <li><a th:href="@{/admin/transactions}" th:text="#{admin.menu.viewTransactions}">View
+                                transactions</a></li>
+                        </ul>
+
+                    </li>
+                    <li class="has-submenu">
+                        <a th:href="@{/user/wallets}" th:text="#{header.menu.wallets}"></a><span
+                            class="menu-arrow"></span>
+                        <ul class="submenu">
+                            <li><a th:text="#{header.menu.addWallet}" th:href="@{/user/add-wallet}">Add wallet</a></li>
+                            <li><a th:href="@{/transaction/create-funding}" th:text="#{header.menu.topUpWallet}"></a>
+                            </li>
+                            <li class="has-submenu"><a th:text="#{header.menu.cards}"
+                                                       th:href="@{/user/cards}">Cards</a><span
+                                    class="submenu-arrow"></span>
+                                <ul class="submenu">
+                                    <li><a th:href="@{/user/add-card}">Add card</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/user/transaction-history}" th:text="#{header.menu.transactionHistory}"></a></li>
+                    <li><a th:href="@{/transaction/create-external}" th:text="#{header.menu.sendMoney}"></a></li>
+                    <li class="hide-desktop"><a th:href="@{/user/profile}" sec:authorize="isAuthenticated()"
+                                                th:text="#{header.menu.myProfile}"></a></li>
+                    <li class="hide-desktop">
+                        <form class="logout-form" sec:authorize="isAuthenticated()" th:action="@{/perform-logout}"
+                              method="post"><input class="btn btn-outline-primary margin-left-extra" th:type="submit"
+                                                   th:value="Logout"></form>
+                    </li>
+                </ul><!--end navigation menu-->
+            </div><!--end navigation-->
+        </div><!--end container-->
+    </header><!--end header-->
+    <!-- Navbar End -->
+</div>
+
+
+<div th:fragment="footer">
+    <!-- Footer Start -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
+                    <a class="logo-footer" href="#">VirtualWallet<span class="text-primary">.</span></a>
+                    <p class="mt-4" th:text="#{footer.description}"></p>
+                    <ul class="list-unstyled social-icon social mb-0 mt-4">
+                        <li class="list-inline-item"><a href="https://www.facebook.com/TelerikAcademy/" target="_blank"
+                                                        class="rounded"><i
+                                class="mdi mdi-facebook" title="Facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com/telerikacademy/" target="_blank"
+                                                        class="rounded"><i
+                                class="mdi mdi-instagram" title="Instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="https://twitter.com/TelerikAcademy" target="_blank"
+                                                        class="rounded"><i
+                                class="mdi mdi-twitter"
+                                title="Twitter"></i></a>
+                        </li>
+                    </ul><!--end icon-->
+                </div><!--end col-->
+
+                <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <h4 class="text-light footer-head" th:text="#{footer.navigation}"></h4>
+                    <ul class="list-unstyled footer-list mt-4">
+                        <li>
+                            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" th:text="#{footer.login}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i></a>
+                            <a sec:authorize="isAuthenticated()" th:href="@{/user/transaction-history}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                    th:text="#{footer.transactions}"></span> </a>
+                        </li>
+                        <li>
+                            <a sec:authorize="!isAuthenticated()" th:href="@{/registration}" th:text="#{footer.signup}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i></a>
+                            <a sec:authorize="isAuthenticated()" th:href="@{/user/wallets}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                    th:text="#{footer.wallets}"></span> </a>
+                        </li>
+                        <li>
+                            <a sec:authorize="isAuthenticated()" th:href="@{/user/add-wallet}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                    th:text="#{footer.wallets.add}"></span>
+                            </a>
+                        </li>
+                        <li><a sec:authorize="isAuthenticated()" th:href="@{/transaction/create-funding}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                th:text="#{footer.wallets.topup}"></span></a>
+                        </li>
+                        <li><a sec:authorize="isAuthenticated()" th:href="@{/user/cards}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                th:text="#{footer.cards}"></span></a>
+                        </li>
+                        <li><a sec:authorize="isAuthenticated()" th:href="@{/user/add-card}"
+                               class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i><span
+                                th:text="#{footer.cards.add}"></span></a>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+
+                <div sec:authorize="isAuthenticated()" class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <h4 class="text-light footer-head" th:text="#{footer.profileNavigation}"></h4>
+                    <ul class="list-unstyled footer-list mt-4">
+                        <li>
+                            <a th:href="@{/user/profile}" class="text-foot">
+                                <i class="mdi mdi-chevron-right mr-1"></i><span th:text="#{footer.viewProfile}"></span></a>
+                        </li>
+                        <li><a th:href="@{/user/profile/edit}"
+                               class="text-foot">
+                            <i class="mdi mdi-chevron-right mr-1"></i><span th:text="#{footer.editProfile}"></span>
+                        </a>
+                        </li>
+                        <li>
+                            <form class="logout-form" th:action="@{/perform-logout}"
+                                  method="post"><input
+                                    class="btn btn-pills btn-secondary margin-left" th:type="submit" th:value="Logout">
+                            </form>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+
+                <div th:if="${user.invitedUsers} < 3" class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0" id="footer-referral"
+                     sec:authorize="isAuthenticated()">
+                    <h4 class="text-light footer-head" th:text="#{referral.invitation.footerTitle}"></h4>
+                    <p class="mt-4" th:text="#{referral.invitation.description}"></p>
+                    <form th:action="@{/referral-invitation}" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="foot-subscribe form-group position-relative">
+                                    <label><span th:text="#{referral.invitation.emailField}"></span> <span
+                                            class="text-danger">*</span></label>
+                                    <i class="mdi mdi-email ml-3 icons"></i>
+                                    <input type="email" name="email" id="emailsubscribe"
+                                           class="form-control pl-5 rounded"
+                                           th:placeholder="#{referral.invitation.emailPlaceholder}" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <input type="submit" id="submitsubscribe" name="send"
+                                       class="btn btn-primary rounded w-100"
+                                       th:value="#{referral.invitation.button}">
+                            </div>
+                        </div>
+                    </form>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end container-->
+    </footer><!--end footer-->
+    <hr>
+    <footer class="footer footer-bar">
+        <div class="container text-center">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <div class="text-sm-left">
+                        <span class="mb-0" th:text="#{footer.authorsOne}">
+                        </span> <span class="font-weight-bold" th:text="#{footer.authorsTwo}"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <span th:text="#{footer.madeWith}"></span> <i class="mdi mdi-heart text-danger"></i> <span
+                        th:text="#{footer.madeWithBy}"></span> <a
+                        href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank"
+                        class="text-success">Java</a>.
+                </div>
+            </div>
+        </div><!--end container-->
+    </footer><!--end footer-->
+    <!-- Footer End -->
+</div>
+
+
+<div th:fragment="js-scripts">
+    <!-- javascript -->
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery.easing.min.js}"></script>
+    <script th:src="@{/js/scrollspy.min.js}"></script>
+    <!-- Magnific Popup -->
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/magnific.init.js}"></script>
+    <!-- SLIDER -->
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/owl.init.js}"></script>
+    <!-- Main Js -->
+    <script th:src="@{/js/app.js}"></script>
+    <!-- Custom Js -->
+    <script th:src="@{/js/custom.js}"></script>
+</div>
+
+</html>

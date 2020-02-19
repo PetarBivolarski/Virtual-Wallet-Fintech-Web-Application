@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Account Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta content="Shreethemes" name="author"/>
+    <div th:replace="fragments/layout :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<!-- Navbar STart -->
+<div th:replace="fragments/layout :: header"></div>
+<!-- Navbar End -->
+
+<!-- Hero Start -->
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{account.settings.title}"></h4>
+                            <ul class="page-next d-inline-block bg-white shadow p-2 pl-4 pr-4 rounded mb-0">
+                                <li><a href="/" class="text-uppercase font-weight-bold text-dark">Home</a></li>
+                                <li><a th:href="@{/user/profile}" class="text-uppercase font-weight-bold text-dark">Account</a>
+                                </li>
+                                <li>
+                                    <span class="text-uppercase text-primary font-weight-bold">Edit Account</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<!-- Shape Start -->
+<div class="position-relative">
+    <div class="shape overflow-hidden text-white">
+        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</div>
+<!--Shape End-->
+
+<!-- Profile Setting Start -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="p-4 rounded shadow">
+                    <h5 class="text-md-left text-center" th:text="#{account.settings.personalDetails}"></h5>
+                    <form th:action="@{/user/profile/edit}" method="post" th:object="${editUserDto}"
+                          enctype="multipart/form-data">
+                        <div class="mt-3 text-md-left text-center d-sm-flex">
+                            <img th:if="${user.photo} != null" th:src="@{'data:image/jpeg;base64,' + ${user.photo}}"
+                                 class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                            <img th:unless="${user.photo} != null" src="images/client/05.jpg"
+                                 class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                            <div class="mt-md-4 mt-3 mt-sm-0">
+                                <label for="upload-image"
+                                       th:text="#{account.changePicture}" class="btn btn-primary mt-2"></label>
+                                <input id="upload-image" type="file" accept="image/jpeg,image/jpg,image/png"
+                                       name="file" class="input-upload-image">
+                                <span id="file-selected"></span>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{user.header.firstName}"></label>
+                                    <i class="mdi mdi-account ml-3 icons"></i>
+                                    <input th:field="*{firstName}" name="name" id="first" type="text"
+                                           class="form-control pl-5"
+                                           th:placeholder="${user.firstName} != null ? ${user.firstName} : #{value.NA}">
+                                </div>
+                                <div th:if="${#fields.hasErrors('firstName')}"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.name}"> </span>
+                                    <span class="alert-content" th:errors="*{firstName}"></span>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-md-6">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{user.header.lastName}"></label>
+                                    <i class="mdi mdi-account-plus ml-3 icons"></i>
+                                    <input th:field="*{lastName}" name="name" id="last" type="text"
+                                           class="form-control pl-5"
+                                           th:placeholder="${user.lastName} != null ? ${user.lastName} : #{value.NA}">
+                                </div>
+                                <div th:if="${#fields.hasErrors('lastName')}"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.name}"> </span>
+                                    <span class="alert-content" th:errors="*{lastName}"></span>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-md-6">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{user.header.email}"></label>
+                                    <i class="mdi mdi-email ml-3 icons"></i>
+                                    <input th:field="*{email}" name="email" id="email" type="email"
+                                           class="form-control pl-5"
+                                           th:placeholder="${user.email} != null ? ${user.email} : #{value.NA}">
+                                </div>
+                                <div th:if="${#fields.hasErrors('email')}"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.email}"> </span>
+                                    <span class="alert-content" th:errors="*{email}"></span>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-md-2">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{user.header.countryCode}" for="country-code"></label>
+                                        <select id="country-code" class="form-control font-weight-bold" required name="countryCode">
+                                            <option th:each="country: ${T(a16team1.virtualwallet.utilities.Country).values()}"
+                                                    th:value="${country.getCode()}"
+                                                    th:text="${country.toString()}"
+                                                    th:selected="${'(+' + country.getCode() == #strings.substringBefore(user.phoneNumber, ')')}"
+                                                    >BG (+359)
+                                            </option>
+                                        </select>
+                                </div>
+                                <div th:if="${#fields.hasErrors('countryCode')}"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.phone}"> </span>
+                                    <span class="alert-content" th:errors="*{countryCode}"></span>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-md-4">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{user.header.phone}" for="phone"></label>
+                                    <i class="mdi mdi-phone ml-3 icons"></i>
+                                    <input name="name" id="phone" type="text" class="form-control pl-5"
+                                           th:field="*{localPhoneNumber}"
+                                           th:placeholder="${user.phoneNumber} != null ? ${#strings.substringAfter(user.phoneNumber, ')')} : #{value.NA}">
+                                </div>
+                                <div th:if="${#fields.hasErrors('localPhoneNumber')}"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.phone}"> </span>
+                                    <span class="alert-content" th:errors="*{localPhoneNumber}"></span>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div th:if="${errorDetails} != null"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile}"> </span>
+                                    <span class="alert-content" th:text="${errorDetails}"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="submit" id="submit" name="send" class="btn btn-primary"
+                                       th:value="#{account.settings.save}">
+                                <div id="size-error" style="display:none" class="badge badge-danger rounded" th:text="#{file.size.error}"></div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </form><!--end form-->
+                    <h5 class="text-md-left text-center margin-top-extra" th:text="#{account.changePassword}"></h5>
+                    <form th:action="@{/user/change-password}" th:object="${changePasswordDto}" method="post">
+                        <div class="row mt-4">
+
+                            <div th:if="${#fields.hasErrors('newPassword')}"
+                                 class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.pass}"> </span>
+                                <span class="alert-content" th:errors="*{newPassword}"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div th:if="${errorPassword} != null"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.pass}"> </span>
+                                    <span class="alert-content" th:text="${errorPassword}"></span>
+                                </div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('global')}"
+                                 class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.pass}"> </span>
+                                <span class="alert-content" th:errors="*{global}"></span>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{account.oldPassword}"></label>
+                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                    <input type="password" class="form-control pl-5" th:field="*{currentPassword}"
+                                           th:placeholder="#{account.oldPassword}"
+                                           required="">
+                                </div>
+                            </div><!--end col-->
+
+                            <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{account.newPassword}"></label>
+                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                    <input type="password" class="form-control pl-5" th:field="*{newPassword}"
+                                           th:placeholder="#{account.newPassword}"
+                                           required="">
+                                </div>
+                            </div><!--end col-->
+
+                            <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                    <label th:text="#{account.retypeNewPassword}"></label>
+                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                    <input type="password" class="form-control pl-5"
+                                           th:placeholder="#{account.retypeNewPassword}"
+                                           th:field="*{confirmNewPassword}" required="">
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-12 mt-2 mb-0">
+                                <button class="btn btn-primary">Save password</button>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </form>
+                </div><!--end col-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+</section><!--end section-->
+<!-- Profile Setting End -->
+
+<div th:replace="fragments/layout :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to top -->
+<a href="#" class="back-to-top rounded text-center" id="back-to-top">
+    <i class="mdi mdi-chevron-up d-block"> </i>
+</a>
+<!-- Back to top -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

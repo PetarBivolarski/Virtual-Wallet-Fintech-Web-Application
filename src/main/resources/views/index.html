@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Virtual Wallet - Make Payments Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout  :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div th:replace="fragments/layout  :: header"></div>
+<!-- Hero Start -->
+<section class="bg-half-170 d-table w-100 overflow-hidden" id="home">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 col-md-7">
+                <div class="title-heading mt-4">
+                    <div class="alert alert-transparent alert-pills shadow" role="alert">
+                        <span class="badge badge-primary rounded mr-1" th:text="#{homepage.badge.title}"></span>
+                        <span class="content" th:text="#{homepage.badge.text}"></span>
+                    </div>
+                    <h1 class="heading mb-3" th:text="#{homepage.headline}"></h1>
+                    <p class="para-desc text-muted" th:text="#{homepage.headline.description}"></p>
+                    <div class="watch-video mt-4 pt-2">
+                        <a th:href="@{/registration}" class="btn btn-primary mb-2 mr-2"
+                           th:text="#{homepage.callToActionButton}" sec:authorize="!isAuthenticated()"></a>
+                    </div>
+                </div>
+            </div><!--end col-->
+
+            <div class="col-lg-5 col-md-5 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                <div class="classic-app-image position-relative">
+                    <div class="bg-app-shape position-relative">
+                        <img th:src="@{/images/app/mobile-1.png}" class="img-fluid mover mx-auto d-block " alt="">
+                    </div>
+                    <div class="app-images d-none d-md-block">
+                        <img th:src="@{/images/app/calender.png}" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+</section><!--end section-->
+<!-- Hero End -->
+
+<!-- Section Start -->
+<section class="section overflow-hidden">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <div class="section-title mb-4 pb-2">
+                    <span class="badge badge-primary rounded mb-2" th:text="#{homepage.feature.badge.title}"></span>
+                    <h4 class="title mb-4" th:text="#{homepage.feature.title}"></h4>
+                    <p class="text-muted para-desc mx-auto mb-0" th:text="#{homepage.feature.text}"></p>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
+        <div class="row">
+            <div class="col-md-4 col-12 mt-4 pt-2">
+                <div class="text-center p-4 py-5 rounded">
+                    <div class="p-3 bg-light rounded shadow d-inline-block">
+                        <img th:src="@{/images/icon/currency.svg}" class="avatar avatar-small" alt="">
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="text-dark" th:text="#{homepage.first.icon.title}"></h5>
+                        <p class="text-muted mt-3 mb-0" th:text="#{homepage.first.icon.description}"></p>
+                    </div>
+                </div>
+            </div><!--end col-->
+
+            <div class="col-md-4 col-12 mt-4 pt-2">
+                <div class="bg-primary text-center p-4 py-5 shadow rounded">
+                    <div class="p-3 bg-white rounded shadow d-inline-block">
+                        <img th:src="@{/images/icon/credit-card.svg}" class="avatar avatar-small" alt="">
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="text-white" th:text="#{homepage.second.icon.title}"></h5>
+                        <p class="white-text" th:text="#{homepage.second.icon.description}"></p>
+                    </div>
+                </div>
+            </div><!--end col-->
+
+            <div class="col-md-4 col-12 mt-4 pt-2">
+                <div class="text-center p-4 py-5 rounded">
+                    <div class="p-3 bg-light rounded shadow d-inline-block">
+                        <img th:src="@{/images/icon/calendar.svg}" class="avatar avatar-small" alt="">
+                    </div>
+                    <div class="mt-4">
+                        <h5 th:text="#{homepage.third.icon.title}"></h5>
+                        <p class="text-muted mt-3 mb-0" th:text="#{homepage.third.icon.description}"></p>
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+
+    <div class="container mt-100 mt-60">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-5">
+                <div class="app-feature-shape-left position-relative">
+                    <div class="text-center text-md-left">
+                        <img th:src="@{/images/app/mobile-2.png}" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div><!--end col-->
+
+            <div class="col-lg-6 col-md-7 mt-5 mt-sm-0">
+                <div class="section-title">
+                    <span class="title mb-3 homepage-custom-title"
+                          th:text="#{homepage.firstRowTitlePartOne}"></span><br>
+                    <span class="title mb-3 homepage-custom-title" th:text="#{homepage.firstRowTitlePartTwo}"></span>
+                    <p class="para-desc text-muted" th:text="#{homepage.firstRowDescription}"></p>
+                    <ul class="list-unstyled feature-list text-muted">
+                        <li><i class="mdi mdi-checkbox-marked-circle text-success mdi-18px h5 mr-2"></i><span
+                                th:text="#{homepage.firstRowDescriptionBenefitOne}"></span>
+                        </li>
+                        <li><i class="mdi mdi-checkbox-marked-circle text-success mdi-18px h5 mr-2"></i><span
+                                th:text="#{homepage.firstRowDescriptionBenefitTwo}"></span>
+                        </li>
+                        <li><i class="mdi mdi-checkbox-marked-circle text-success mdi-18px h5 mr-2"></i><span
+                                th:text="#{homepage.firstRowDescriptionBenefitThree}"></span></li>
+                    </ul>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+
+    <div class="container mt-100 mt-60">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-7 order-2 order-md-1 mt-5 mt-sm-0">
+                <div class="section-title">
+                    <h1 class="title mb-3" th:text="#{homepage.secondRowTitle}"></h1>
+                    <p class="para-desc text-muted" th:text="#{homepage.secondRowDescription}"></p>
+                    <div class="mt-4">
+                        <a class="btn btn-primary" th:href="@{/registration}">
+                            <span th:text="#{homepage.secondRowCallToAction}"></span><i
+                                class="mdi mdi-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div><!--end col-->
+
+            <div class="col-lg-6 col-md-5 order-1 order-md-2">
+                <div class="app-feature-shape-right position-relative">
+                    <div class="text-center text-md-right">
+                        <img th:src="@{/images/app/mobile-3.png}" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+
+
+    <div class="container mt-100 mt-60 pb-md-5 mb-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <div class="section-title mb-60">
+                    <span class="badge badge-success rounded mb-2" th:text="#{homepage.reviewsBadge}"></span>
+                    <h4 class="title mb-4" th:text="#{homepage.reviews.title}"></h4>
+                    <p class="text-muted para-desc mx-auto mb-0" th:text="#{homepage.reviews.description}"></p>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div id="customer-testi" class="owl-carousel owl-theme">
+
+
+                    <div class="media customer-testi m-2">
+                        <img th:src="@{/images/client/03.jpg}" class="avatar avatar-small mr-3 rounded shadow" alt="">
+                        <div class="media-body content p-3 shadow rounded bg-white position-relative">
+                            <ul class="list-unstyled mb-0">
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                            </ul>
+                            <p class="text-muted mt-2" th:text="#{homepage.customerReviewThreeDescription}"></p>
+                            <span class="text-primary" th:text="#{homepage.customerReviewThreeName}"></span>&nbsp;<small
+                                class="text-muted" th:text="#{homepage.customerReviewThreeTitle}"></small>
+                        </div>
+                    </div>
+
+                    <div class="media customer-testi m-2">
+                        <img th:src="@{/images/client/04.jpg}" class="avatar avatar-small mr-3 rounded shadow" alt="">
+                        <div class="media-body content p-3 shadow rounded bg-white position-relative">
+                            <ul class="list-unstyled mb-0">
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                            </ul>
+                            <p class="text-muted mt-2" th:text="#{homepage.customerReviewOneDescription}"></p>
+                            <span class="text-primary" th:text="#{homepage.customerReviewOneName}"></span>&nbsp;<small
+                                class="text-muted" th:text="#{homepage.customerReviewOneTitle}"></small>
+                        </div>
+                    </div>
+
+                    <div class="media customer-testi m-2">
+                        <img th:src="@{/images/client/05.jpg}" class="avatar avatar-small mr-3 rounded shadow" alt="">
+                        <div class="media-body content p-3 shadow rounded bg-white position-relative">
+                            <ul class="list-unstyled mb-0">
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                            </ul>
+                            <p class="text-muted mt-2" th:text="#{homepage.customerReviewTwoDescription}"></p>
+                            <span class="text-primary" th:text="#{homepage.customerReviewTwoName}"></span>&nbsp;<small
+                                class="text-muted" th:text="#{homepage.customerReviewTwoTitle}"></small>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!---end container-->
+
+</section><!--end section-->
+<!-- Section End -->
+
+<!-- Subscribe Start -->
+<section class="section bg-primary">
+    <div class="bg-overlay bg-overlay-white"></div>
+    <div class="container position-relative">
+        <div class="row">
+            <div class="col-lg-5 col-md-6">
+                <div class="app-subscribe text-center text-md-left">
+                    <img th:src="@{/images/app/mobile-5.png}" class="img-fluid hide-mobile" alt="">
+                </div>
+            </div><!--end col-->
+
+            <div class="col-lg-7 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                <div class="section-title text-center text-md-left">
+                    <h1 class="title text-white title-dark mb-3" th:text="#{homepage.donationsTitle}"></h1>
+                    <p class="text-light para-dark" th:text="#{homepage.donationDescription}"></p>
+                    <span class="text-light para-dark" th:text="#{homepage.donationNumbersTitleOne}"></span>
+                    &nbsp;<span class="text-light para-dark font-weight-bold currency-format"
+                                th:text="${currentDonatedAmount}"></span>&nbsp;
+                    <span class="text-light para-dark" th:text="#{homepage.donationNumbersTitleTwo}"></span>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+</section><!--end section-->
+<!-- Subscribe End -->
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<!-- Back to top -->
+<a href="#" class="back-to-top rounded text-center" id="back-to-top">
+    <i class="mdi mdi-chevron-up d-block"> </i>
+</a>
+<!-- Back to top -->
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

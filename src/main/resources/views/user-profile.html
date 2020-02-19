@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>My Profile - Virtual Wallet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<!-- Navbar STart -->
+<div th:replace="fragments/layout :: header"></div>
+<!-- Navbar End -->
+
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{user.profile.title}"></h4>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section>
+
+<!-- Profile Start -->
+<section class="section mt-60">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="public-profile position-relative p-4 bg-white overflow-hidden rounded shadow"
+                             style="z-index: 1;">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-md-left text-center">
+                                    <img th:if="${user.photo} != null"
+                                         th:src="@{'data:image/jpeg;base64,' + ${user.photo}}"
+                                         th:alt="#{user.profile.image}"
+                                         class="avatar avatar-medium rounded-pill shadow d-block mx-auto"/>
+                                    <img th:unless="${user.photo} != null" th:src="@{/images/empty-profile-image.png}"
+                                         class="avatar avatar-medium rounded-pill shadow d-block mx-auto"
+                                         th:alt="#{user.no.profile.image}">
+                                </div><!--end col-->
+
+                                <div class="col-lg-10 col-md-9">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
+                                            <h3 class="title mb-0"
+                                                th:if="${user.firstName} != null OR ${user.lastName} != null" }>
+                                                <span th:text="${user.firstName} != null ? ${user.firstName} : ''"></span>
+                                                <span th:text="${user.lastName} != null ? ${user.lastName} : ''"></span>
+                                            </h3>
+                                            <h3 class="title mb-0"
+                                                th:if="${user.firstName} == null AND ${user.lastName} == null" }>
+                                                <span th:text="#{user.profile.noName}"></span>
+                                            </h3>
+                                            <small class="text-muted h6 mr-2"
+                                                   th:text="#{user.profile.username}"></small><small
+                                                class="text-muted h6 mr-2 font-weight-bold"
+                                                th:text="${user.username}"></small>
+                                            <ul class="list-inline mb-0 mt-3">
+                                                <li class="list-inline-item mr-2">
+                                                    <a href="javascript:void(0)"
+                                                       class="text-muted"><i
+                                                            class="mdi mdi-email mr-2"></i><span
+                                                            th:text="${user.email}"></span></a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="javascript:void(0)"
+                                                       class="text-muted"><i
+                                                            class="mdi mdi-phone mr-2"></i><span
+                                                            th:text="${user.phoneNumber}"></span></a></li>
+                                            </ul>
+                                        </div><!--end col-->
+                                        <div class="col-md-5 text-md-right text-center">
+                                            <ul class="list-unstyled profile-icons mb-0 mt-4">
+
+                                                <li class="list-inline-item"><a th:href="@{/user/transaction-history}"
+                                                                                class="rounded-pill"><i
+                                                        class="mdi mdi-view-list"
+                                                        th:title="#{user.profile.viewTransactions}"></i></a></li>
+                                                <li class="list-inline-item"><a th:href="@{/user/profile/edit}"
+                                                                                class="rounded-pill bg-dark"><i
+                                                        class="mdi mdi-tools text-light"
+                                                        th:text="#{user.profile.edit}"></i></a>
+                                                </li>
+                                            </ul><!--end icon-->
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--ed container-->
+        </div>
+    </div>
+    <div class="container mt-lg-3">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 col-12">
+                <div class="p-4 rounded shadow">
+                    <h5 th:text="#{user.profile.status}"></h5>
+                    <div class="progress-box mt-4" th:if="${user.blocked} == false">
+                        <h6 class="title text-muted"
+                            th:text="${user.confirmedRegistration} == true ? #{user.header.statusConfirmed} : #{user.header.statusUnconfirmed}"></h6>
+                        <div class="progress">
+                            <div th:if="${user.confirmedRegistration}" class="progress-bar position-relative bg-success"
+                                 style="width:100%;">
+                            </div>
+                            <div th:unless="${user.confirmedRegistration}"
+                                 class="progress-bar position-relative bg-warning" style="width:50%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-box mt-4" th:unless="${user.blocked} == false">
+                        <h6 class="title text-muted" th:text="#{user.profile.status.blocked}"></h6>
+                        <div class="progress">
+                            <div class="progress-bar position-relative bg-danger" style="width:50%;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4 pt-2" th:text="#{user.member.since}"></h5>
+                    <h6 th:text="${joinedDate}" class="title text-muted"></h6>
+
+                    <h5 class="mt-4 pt-2" th:text="#{user.current.saldo}"></h5>
+                    <h6 th:text="${currentSaldo}" class="title text-muted currency-format"></h6>
+
+                </div>
+            </div><!--end col-->
+
+            <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <div class="ml-lg-3">
+                    <div class="border-bottom pb-4">
+                        <div class="row">
+                            <div class="col-lg-6 mt-4">
+                                <h5 th:text="#{user.profile.personalDetails}"></h5>
+                                <ul class="list-inline mb-0 mt-4">
+                                    <li>
+                                        <i class="mdi mdi-account float-left text-muted mr-2"></i>
+                                        <div class="overflow-hidden d-block">
+                                            <h6 class="text-primary mb-0" th:text="#{user.header.username}"></h6>
+                                            <a href="javascript:void(0)"
+                                               class="text-muted" th:text="${user.username}"></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <i class="mdi mdi-email float-left text-muted mr-2"></i>
+                                        <div class="overflow-hidden d-block">
+                                            <h6 class="text-primary mb-0" th:text="#{user.header.email}"></h6>
+                                            <a href="javascript:void(0)"
+                                               class="text-muted" th:text="${user.email}"></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <i class="mdi mdi-phone float-left text-muted mr-2"></i>
+                                        <div class="overflow-hidden d-block">
+                                            <h6 class="text-primary mb-0" th:text="#{user.header.phone}"></h6>
+                                            <span class="text-muted" th:text="${user.phoneNumber}"></span>
+                                        </div>
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <i class="mdi mdi-account-badge float-left text-muted mr-2"></i>
+                                        <div class="overflow-hidden d-block">
+                                            <h6 class="text-primary mb-0" th:text="#{user.header.firstName}"></h6>
+                                            <span class="text-muted"
+                                                  th:text="${user.firstName} != null ? ${user.firstName} : #{value.NA}"></span>
+                                        </div>
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <i class="mdi mdi-account-badge float-left text-muted mr-2"></i>
+                                        <div class="overflow-hidden d-block">
+                                            <h6 class="text-primary mb-0" th:text="#{user.header.lastName}"></h6>
+                                            <span class="text-muted"
+                                                  th:text="${user.lastName} != null ? ${user.lastName} : #{value.NA}"></span>
+                                        </div>
+                                    </li>
+
+
+                                </ul>
+                            </div><!--end col-->
+
+                            <div class="col-lg-6 mt-4 pt-2 pt-sm-0">
+
+                                <ul>
+                                    <h5 th:text="#{user.default.wallet}"></h5>
+                                    <li class="key-feature d-flex p-3 bg-white rounded shadow">
+                                        <div class="content" th:if="${user.defaultWallet} != null">
+                                            <h4 class="title mb-0" th:text="${user.defaultWallet.name}"></h4>
+                                            <div>
+                                                <span class="text-muted mb-0"
+                                                      th:text="#{user.profile.defaultWalletCurrency}"></span> <span
+                                                    class="text-muted mb-0"
+                                                    th:text="#{default.currency}"></span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted mb-0"
+                                                      th:text="#{user.profile.defaultWalletSaldo}"></span> <span
+                                                    class="text-muted mb-0 currency-format"
+                                                    th:text="${user.defaultWallet.saldo}"></span>
+                                            </div>
+                                            <p class="text-muted mb-0"><a th:href="@{/user/wallets}"
+                                                                          class="text-primary"
+                                                                          th:text="#{user.profile.viewWallets}"></a>
+                                            </p>
+                                        </div>
+                                        <div class="content" th:unless="${user.defaultWallet} != null">
+                                            <span class="text-muted mb-0"
+                                                  th:text="#{user.profile.noDefaultWallet}"></span>
+                                        </div>
+                                    </li>
+
+                                    <h5 class="margin-top" th:text="#{user.inspirational.quote.title}"></h5>
+                                    <div class="alert alert-light inspirational-quote" role="alert">
+                                        <span
+                                                class="text-muted mb-0 font-italic">"</span><span
+                                            class="text-muted mb-0 font-italic"
+                                            th:text="${quote.text}"></span><span
+                                            class="text-muted mb-0 font-italic">"</span>
+                                        <p class="text-muted mb-0 font-italic" th:text="${quote.author}"></p>
+
+                                    </div>
+                                </ul>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+
+                    <h5 class="mt-4 mb-0" th:text="#{user.profile.latestThreeTransactions}"></h5>
+                    <div class="row">
+
+                        <div class="table-responsive bg-white shadow rounded margin-top">
+                            <table class="table mb-0 table-center">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{transaction.history.date}">Date</th>
+                                    <th th:text="#{transaction.history.amount}">Amount</th>
+                                    <th th:text="#{transaction.history.source}">Source</th>
+                                    <th th:text="#{transaction.history.destination}">Destination</th>
+                                    <th th:text="#{transaction.history.description}">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="transaction: ${latestThreeTransactions}">
+                                    <td th:text="${transaction.dateTime} ? ${#dates.format(transaction.dateTime, 'MM/dd/yyyy HH:mm')} : #{value.NA}">
+                                        2020-01-28
+                                    </td>
+                                    <td th:text="${transaction.senderInstrument.owner.id == user.id && transaction.recipientInstrument.owner.id != user.id} ? '-' + ${transaction.transferAmount} : '+' + ${transaction.transferAmount}" th:class="${transaction.senderInstrument.owner.id == user.id && transaction.recipientInstrument.owner.id != user.id ? 'outgoing-style transactions-amount-format' : (transaction.senderInstrument.owner.id != user.id && transaction.recipientInstrument.owner.id == user.id ? 'incoming-style transactions-amount-format' : 'funding-style transactions-amount-format')}">
+                                        500.34
+                                    </td>
+                                    <td th:text="${transaction.recipientInstrument} ? ${transaction.senderInstrument.owner.username} + ' / ' + ${transaction.senderInstrument.name} : #{value.NA}">
+                                        Jane/Jane's wallet
+                                    </td>
+                                    <td th:text="${transaction.recipientInstrument.owner.username + (transaction.recipientInstrument.owner.id == user.id ? '/' + transaction.recipientInstrument.name : '')}">
+                                        John/John's wallet
+                                    </td>
+                                    <td th:text="${transaction.description} ? ${transaction.description} : #{value.NA}">
+                                        Reason for transfer
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!--end col-->
+
+                        <div class="col-12 mt-4 pt-2 left-padding">
+                            <a th:href="@{/user/transaction-history}" class="btn btn-primary"
+                               th:text="#{user.profile.viewTransactionHistory}"><i
+                                    class="mdi mdi-chevron-right"></i></a>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+</section><!--end section-->
+<!-- Profile End -->
+
+<div th:replace="fragments/layout :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to top -->
+<a href="#" class="back-to-top rounded text-center" id="back-to-top">
+    <i class="mdi mdi-chevron-up d-block"> </i>
+</a>
+<!-- Back to top -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+
+</body>
+</html>

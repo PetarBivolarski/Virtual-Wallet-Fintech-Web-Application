@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Top-up Your Wallet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div th:replace="fragments/layout :: header"></div>
+
+<section class="section bg-light">
+    <!-- Payment and Price Start -->
+    <div class="container mt-10">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <div class="section-title mb-4 pb-2">
+                    <h4 class="title mb-4" th:text="#{wallet.top.up.title}">Top-up your wallet</h4>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 col-md-6 col-12 mt-4 pt-2">
+                <div class="rounded bg-white border shadow">
+                    <div class="bg-light p-4 text-center rounded-top">
+                        <h4 class="mb-0 text-primary" th:text="#{wallet.top.up.subtitle}">Add funds to your wallet</h4>
+                    </div>
+
+                    <div class="p-4">
+                        <form id="top-up-form" th:action="@{/transaction/create-funding}" th:object="${fundingTransactionDto}"
+                              method="post">
+                            <div class="row">
+                                <div th:if="${error} != null"
+                                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.transactionFailed}"> </span>
+                                    <span class="alert-content" th:text="${error}"></span>
+                                </div>
+                                <div class="col-md-12" th:if="${user.defaultWallet} == null">
+                                    <div class="form-group">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong th:text="#{user.noDefaultWalletTextOne}"></strong> <span
+                                                th:text="#{user.noDefaultWalletTextTwo}"></span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"> × </span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" th:unless="${user.defaultWallet} == null">
+                                    <div th:if="${#fields.hasErrors('transferAmount')}"
+                                         class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.amount}"> </span>
+                                        <span class="alert-content" th:errors="*{transferAmount}"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount" th:text="#{user.amountToTopUp}"></label>
+                                        <input id="amount" type="number" step=".01"
+                                               class="form-control font-weight-bold" required
+                                               th:field="*{transferAmount}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="card" th:text="#{user.cardToToTopUpFrom}"></label>
+                                        <select id="card" class="form-control" th:field="*{cardId}">
+                                            <option th:each="card : ${cardList}"
+                                                    th:value="${card.id}"
+                                                    th:text="${card.name}">
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cvv" th:text="#{wallet.top.up.confirmCVV}">CVV</label>
+                                        <input type="text" autocomplete="off" id="cvv"
+                                               class="form-control font-weight-bold" required
+                                               th:field="*{csv}" placeholder="000">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('csv')}"
+                                         class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.name}"> </span>
+                                        <span class="alert-content" th:errors="*{csv}"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description"
+                                               th:text="#{wallet.top.up.description}">Description</label>
+                                        <input type="text" autocomplete="off" id="description"
+                                               class="form-control font-weight-bold" required
+                                               th:field="*{description}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('description')}"
+                                         class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{error.edit.profile.name}"> </span>
+                                        <span class="alert-content" th:errors="*{description}"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wallet">Choose a wallet</label>
+                                        <select id="wallet" class="form-control" th:field="*{walletId}">
+                                            <option th:each="wallet : ${walletList}"
+                                                    th:value="${wallet.id}"
+                                                    th:text="${wallet.name}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <input type=number class="hidden-input-field" th:field="*{userId}"/>
+                                            <a type="submit" class="submitBnt btn btn-primary"
+                                               data-toggle="modal" data-target="#add-funds"
+                                               th:text="#{wallet.top-up.money}"></a>
+                                            <div class="modal fade" id="add-funds" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenterTitle"
+                                                 style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content rounded shadow border-0">
+                                                        <div class="modal-header"><h5 class="modal-title"
+                                                                                      id="exampleModalCenterTitle"
+                                                                                      th:text="#{transaction.donate.title}"></h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close"><span
+                                                                    aria-hidden="true">×</span></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="p-4">
+                                                                <div class="row justify-content-center">
+                                                                    <img th:width="300px"
+                                                                         th:src="@{/images/sos-new.jpg}">
+                                                                </div>
+                                                                <div class="row"><p class="text-muted mb-0"
+                                                                                    th:text="#{transaction.donate.textOne}"></p>
+                                                                </div>
+                                                                <div class="row margin-top">
+                                                                    <p class="text-muted mb-0"
+                                                                       th:text="#{transaction.donate.textTwo}"></p>
+                                                                </div>
+                                                                <div class="row margin-top">
+                                                        <span class="text-muted mb-0"
+                                                              th:text="#{transaction.donate.textThree}"></span>&nbsp;<span
+                                                                        class="text-muted mb-0 font-weight-bold"
+                                                                        th:text="#{transaction.donate.organizationName}"></span>
+                                                                    <span class="text-muted mb-0"
+                                                                          th:text="#{transaction.donate.textFour}"> </span>&nbsp;<span
+                                                                        class="text-muted mb-0 font-weight-bold"
+                                                                        th:text="#{transaction.donate.country}"></span>
+                                                                </div>
+                                                                <div class="row margin-top">
+                                                                    <p class="text-muted mb-0"
+                                                                       th:text="#{transaction.donate.final}"></p></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input id="with-donation-value" type="hidden" th:field="*{withDonation}">
+<!--                                                                <div class="custom-control custom-checkbox">-->
+<!--                                                                    <input type="checkbox" class="custom-control-input"-->
+<!--                                                                           id="customCheck2" th:field="*{withDonation}">-->
+<!--                                                                    <label class="custom-control-label"-->
+<!--                                                                           for="customCheck2">Include donation of-->
+<!--                                                                        1€</label>-->
+<!--                                                                </div>-->
+                                                                <button class="btn btn-success" id="top-up-with-donation"
+                                                                        th:text="#{wallet.top-up.money.withDonation}"></button>
+                                                                <input type="submit" name="send"
+                                                                       class="submitBnt btn btn-primary"
+                                                                       th:value="#{wallet.top-up.money}">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div><!--end col-->
+                                </div><!--end row-->
+
+                        </form><!--end form-->
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+    <!-- Payment and Price End -->
+</section><!--end section-->
+<!-- section End -->
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<!-- Back to top -->
+<a href="#" class="back-to-top rounded text-center" id="back-to-top">
+    <i class="mdi mdi-chevron-up d-block"> </i>
+</a>
+<!-- Back to top -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+//
+// home.scss
+//
+
+@mixin home-common {
+    background-size: cover;
+    align-self: center;
+    position: relative;
+    background-position: center center;
+}
+
+.home-center {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.home-desc-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+.bg-home {
+    height: 100vh;    
+    @include home-common();
+}
+.bg-half-260 {
+    padding: 260px 0;    
+    @include home-common();
+}
+.bg-half-170 {
+    padding: 170px 0;    
+    @include home-common();
+}
+.bg-half {
+    padding: 144px 0 50px;
+    @include home-common();
+}
+
+//Gradient Home
+.gradient{
+    background: $primary !important;
+    background: linear-gradient(45deg, $primary, $primary) !important;
+    opacity: 0.9;
+}
+//Saas
+.home-dashboard {
+    img {
+        position: relative;
+        top: 60px;
+        z-index: 1;
+    }
+}
+//Studio
+.studio-home {
+    padding: 7%;
+    border-radius: 30px;
+}
+//Agency
+.agency-wrapper {
+    &:before {
+        content: "";
+        position: absolute;
+        bottom: 22rem;
+        right: 54rem;
+        width: 90rem;
+        height: 35rem;
+        border-radius: 17rem;
+        transform: rotate(45deg);
+        background-color: $light;
+        z-index: -1;
+    }
+}
+//Marketing
+.bg-marketing {
+    padding: 76px 0 120px;
+    @include home-common();
+}
+
+//Coworking Landing
+.home-slider {
+    .carousel-control-next,
+    .carousel-control-prev {
+        width: 5%;
+    }
+    .carousel-item,
+    .carousel {
+        height: 100vh;
+        width: 100%;
+    }
+    .carousel-item {
+        background-position: center center;
+        background-size: cover;
+    }
+}
+
+//Hotel Landing
+.main-slider{
+    .slides {
+        .bg-slider {
+            background-size: cover;
+            height: 100vh;
+            position: relative;
+            @include home-common(); 
+            &.shopping {
+                height: 75vh;
+            }
+        }
+    }
+}        
+.flex-control-paging li a{
+    background: $white;
+    box-shadow: none;
+    &.flex-active {
+        background: $primary;
+        cursor: default;
+        font-size: 17px;
+        width: 15px;
+        height: 15px;
+        box-shadow: none;
+    }
+}
+.flex-control-nav {
+    display: none;
+}
+.bg-animation-left {
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 70%;
+        height: 100%;
+        background: rgba($white, 0.85);
+        clip-path: polygon(0 0, 90% 0, 70% 100%, 0% 100%);
+    }
+    &.dark-left {
+        &:after {
+            background: rgba($dark, 0.6);
+        }
+    }
+}
+
+//page-invoice.html
+.bg-invoice {
+    padding: 100px 0;
+    @include home-common();
+}
+
+// Responsive 
+@media (min-width: 769px){    
+    //studio 
+    .bg-studio {
+        &:after{
+            content: "";
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            width: 50%;
+            height: 100%;
+            background: $white none repeat scroll 0 0;
+            z-index: 2;
+        }
+    }
+}
+//Index-onepage.html
+@media (min-width:768px) {
+    .home-dashboard {
+        &.onepage-hero {
+            overflow: hidden;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .agency-wrapper {
+        &:before {
+            right: 12rem;
+        }
+    }
+    .bg-half {
+        padding: 169px 0 50px;
+    }
+}
+@media (max-width: 767px) {
+    .bg-home, .bg-half-170, .bg-half-260, .main-slider .slides .bg-slider, .bg-marketing {        
+        padding: 150px 0;
+        height: auto;
+    } 
+    .agency-wrapper {
+        &:before {
+            right: 0;
+        }
+    }
+    .bg-animation-left {
+        &:after {
+            width: 100%;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+    }
+}

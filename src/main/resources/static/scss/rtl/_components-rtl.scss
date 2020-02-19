@@ -1,0 +1,387 @@
+//
+// .scss
+//
+
+//Alert
+.alert {
+    &.alert-dismissible {
+        padding: 8px 15px 8px 30px ;
+        .close {
+            left: -10px !important;
+            right: auto;
+        }
+    }
+}
+    
+//Breadcrumb
+.page-next-level{
+    .page-next {
+        li {
+            margin-left: 5px !important;
+            margin-right: auto;
+            &:before {
+                content: "\f141";
+                font-size: 16px;
+                color: $dark; 
+                font-family: 'Material Design Icons';
+            }   
+            &:after {
+                display: none;
+            }
+            &:last-child {
+                margin-left: 0;
+                margin-right: auto;
+                &:before {
+                    display: none;
+                }
+            }       
+            a, span {        
+                padding-left: 8px;
+                padding-right: auto;           
+            }
+            span {
+                &:last-child {
+                    padding-left: 0px;
+                    padding-right: auto;
+                }
+            }
+        }
+    }
+}
+
+//Pagination
+.pagination {    
+    li {
+        &:first-child a {
+            border-right-width: 1px;
+            border-left-width: 0;
+            border-radius: 0 20px 20px 0;
+        } 
+        &:last-child a{
+            border-radius: 20px 0 0 20px;
+        }
+        a {
+            float: right;
+            border-left-width: 1px;
+            border-right-width: 0;
+        }
+    }              
+}
+
+//FAQ
+.faq-container {
+    .question {
+        font-size: 20px;
+    }
+}
+
+.faq-content {
+    .card {
+        .faq {           
+            .card-header {
+                padding-left: 40px !important;
+                padding-right: auto !important;
+                
+            }
+        }  
+        a.faq[data-toggle=collapse]{
+            &:before {
+                left: 20px;
+                right: auto;
+            }
+        }
+    }
+}
+.nav {
+    padding-right: 0;
+    padding-right: auto;
+}
+//Processbar
+.progress-box {
+    .progress {
+        .progress-value {
+            left: -15px;
+            right: auto;
+        }
+    }
+}
+
+//blockquote
+.blockquote {
+    border-right: 3px solid $gray-300;
+    border-left: 0;
+}
+
+//Subscribe form
+.subcribe-form {
+    input {
+        padding-left: 160px;
+        padding-right: 30px;
+    }
+    button {
+        left: 6px;
+        right: auto;
+    }
+}
+.input-group>.input-group-append>.btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.input-group>.form-control:not(:last-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+//back to top
+.back-to-top {
+    left: 30px;
+    right: auto;
+}
+
+//back-to-home
+.back-to-home {
+    left: 2%;
+    right: auto;
+}
+
+// Loader
+#preloader {
+    #status {
+        .spinner {
+            .double-bounce1, .double-bounce2 {
+                right: 0 !important;
+                left: auto;
+            }
+        }
+    }
+}
+
+
+//Blog(rtl css)
+.blog {
+    .post-meta {
+        .readmore {
+            float: left !important;
+        }
+    }
+    .author {
+        right: 5%;
+    }
+}
+.sidebar {
+    .widget {
+        .widget-search, .searchform { 
+            input[type="text"] {
+                padding-left: 45px;
+                padding-right: auto;
+            }
+            input[type="submit"] {
+                left: 10px;
+                right: auto;
+            }
+        }
+        .widget-search {
+            .searchform:after {
+                left: 16px;
+                right: auto;
+            }
+        }    
+        .catagories {
+            span {
+                float: left !important;
+            }
+        }  
+        .post-recent {
+            .post-recent-content {
+                padding-right: 10px;
+                padding-left: auto;
+            }
+        }
+    }
+}
+.media-list {
+    .sub-comment {
+        border-right: 2px dashed $gray-300;
+        border-left: 0;
+    }
+}
+.job-content {
+    &:before {
+        left: -80px;
+        right: auto;
+        transform: rotate(-45deg);
+    }
+}
+
+//Contact 
+.form-group {
+    text-align: right;
+    .icons {
+        right: 0;
+        left: auto;
+    }
+}
+.custom-control {
+    padding-right: 1.5rem;
+    padding-left: 0;
+    &.custom-switch {
+        padding-right: 2.25rem !important;
+    }
+}
+.custom-control-label{
+    &:before,
+    &:after {
+        right: -1.5rem;
+    }
+}
+.form-check-inline {
+    margin-right: 0;
+    padding-left: .75rem;
+}
+.custom-control-inline {
+    margin-left: 1rem;
+    margin-right: 0;
+}
+.custom-switch .custom-control-label{
+    &:before {
+        right: -2.35rem;
+    }
+    &:after {
+        left: calc(-2.25rem + 2px);
+    }
+}
+
+.custom-select {
+    padding: .375rem .75rem .375rem 1.75rem !important;
+    background-position: left 0.75rem center!important;
+}
+
+//Modal
+.modal-header .close {
+    margin: -1rem auto -1rem -1rem !important;
+}
+.modal-footer{
+    >:not(:last-child) {
+        margin-left: .25rem;
+        margin-right: 0;
+    }
+    >:not(:first-child) {
+        margin-left: 0;
+        margin-right: .25rem;
+    }
+}
+// Features
+.features {
+    .image {
+        &:before {
+            left: -15px;
+            right: auto;
+            transform: rotate(222deg) !important;
+        }
+    }
+}
+.key-feature {
+    .icon, .icons {
+        margin-right: 0 !important;
+    }
+}
+//home
+.bg-animation-left {
+    &:after {
+        right: 0px;
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+.agency-wrapper {
+    &:before {
+        left: 54rem;
+        right: auto;
+        transform: rotate(135deg);
+    }
+}
+//Pricing
+.pricing-rates {
+    &.best-plan {
+        .lable {
+            left: -65px;
+        }
+    }
+}
+
+//Testimonial
+.no-js .owl-carousel, .owl-carousel.owl-loaded, .slick-slider {
+    direction: ltr;
+}
+.customer-testi {
+    &.media {
+        img {
+            margin-right: 16px !important;
+            margin-left: auto !important;
+        }
+        .content {
+            text-align: left !important;
+        }
+    }
+}
+
+//Work
+.work-container {
+    .content {
+        right: 5% !important;
+    }
+    .client, .read_more {
+        left: 5%;
+        right: auto;
+    }
+}
+
+.courses-desc {
+    .collection {
+        top: 15px;
+        right: 15px;
+    }
+    .preview {
+        bottom: 15px;
+        left: 15px;
+    }
+}
+
+// Responsive 
+@media (min-width: 769px){    
+    .bg-studio {
+        &:after{
+            left: 0px;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .agency-wrapper {
+        &:before {
+            left: 12rem;
+        }
+    }
+}
+@media (max-width: 767px) {
+    .agency-wrapper {
+        &:before {
+            left: 0;
+        }
+    }
+    .company-logo {
+        float: none !important;
+        text-align: right !important;
+    }
+}
+
+@media (min-width: 576px){
+    .text-sm-left {
+        text-align: right !important;
+    }
+
+    .text-sm-right {
+        text-align: left !important;
+    }
+}

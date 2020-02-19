@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Add a Wallet To Virtual Wallet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div th:replace="fragments/layout :: header"></div>
+
+<section class="section bg-light">
+    <!-- Payment and Price Start -->
+    <div class="container mt-10">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <div class="section-title mb-4 pb-2">
+                    <h4 class="title mb-4" th:text="#{wallet.add.title}"></h4>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 col-md-6 col-12 mt-4 pt-2">
+                <div class="rounded bg-white border shadow">
+                    <div class="bg-light p-4 text-center rounded-top">
+                        <h4 class="mb-0 text-primary" th:text="#{wallet.add.subtitle}">Add a new Wallet</h4>
+                    </div>
+
+                    <div class="p-4">
+                        <form th:action="@{/user/add-wallet}" th:object="${walletDto}" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wallet-name" th:text="#{wallet.name}">Name of Wallet</label>
+                                        <input name="wallet-name" id="wallet-name" type="text"
+                                               class="form-control font-weight-bold" required
+                                               th:field="*{name}" th:placeholder="#{wallet.name}">
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('name')}"
+                                         class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{wallet.error}"> </span>
+                                        <span class="alert-content" th:errors="*{name}"></span>
+                                    </div>
+                                    <div th:if="${error} != null"
+                                         class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{wallet.error}"> </span>
+                                        <span class="alert-content" th:text="${error}"></span>
+                                    </div>
+                                </div><!--end col-->
+                                <div class="col-md-12">
+                                    <div class="form-group" th:if="${user.defaultWallet} == null">
+                                        <label for="default-wallet-1" th:text="#{wallet.select.asDefault}"></label>
+                                        <input
+                                                id="default-wallet-1" type="checkbox" onclick="return false;"
+                                                disabled="disabled" checked>
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong th:text="#{wallet.select.autoDefault.bold}"></strong> <span
+                                                th:text="#{wallet.select.autoDefault.text}"></span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"> × </span></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:unless="${user.defaultWallet} == null">
+                                        <label for="default-wallet-2" th:text="#{wallet.select.asDefault}"></label>
+                                        <input id="default-wallet-2" type="checkbox" name="default" th:checked="${default}">
+                                    </div>
+
+                                </div><!--end col-->
+                            </div><!--end row-->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="hidden" th:field="*{paymentInstrumentDto.name}"/>
+                                    <input type="submit" id="submit" name="send" class="submitBnt btn btn-primary"
+                                           th:value="#{wallet.add.button}">
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </form><!--end form-->
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+    <!-- Payment and Price End -->
+</section><!--end section-->
+<!-- section End -->
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<!-- Back to top -->
+<a href="#" class="back-to-top rounded text-center" id="back-to-top">
+    <i class="mdi mdi-chevron-up d-block"> </i>
+</a>
+<!-- Back to top -->
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+</body>
+</html>

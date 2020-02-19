@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Cards List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{card.list}"></h4>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div th:if="${cards.isEmpty()}">
+            <h2 th:text="#{card.emptyList}" th:align="center"></h2>
+        </div>
+        <div th:unless="${cards.isEmpty()}">
+
+            <div class="col-md-12">
+                <div th:if="${error} != null"
+                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{card.error}"> </span>
+                    <span class="alert-content" th:text="${error}"></span>
+                </div>
+            </div>
+            <div class="table-responsive bg-white shadow rounded">
+                <table class="table mb-0 table-center">
+                    <thead>
+                    <tr>
+                        <th th:text="#{card.cardNumber}">Card number</th>
+                        <th th:text="#{card.cardholderName}">Cardholder name</th>
+                        <th th:text="#{card.expirationDate}">Expiration date</th>
+                        <th th:text="#{card.edit.title}">Edit card</th>
+                        <th th:text="#{card.delete.title}">Delete card</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="card : ${cards}">
+                        <td th:text="${card.cardNumber}">Card number</td>
+                        <td th:text="${card.cardholderName}">Cardholder Name</td>
+                        <td th:text="${card.expirationDate}">Expiration date</td>
+                        <td>
+                            <form th:action="@{'/user/cards/' + ${card.id} + '/edit'}" method="get">
+                                <input class="btn btn-primary" th:type="submit" th:value="#{card.edit}">
+                            </form>
+
+                        </td>
+                        <td>
+                            <a class="btn btn-light" data-toggle="modal" data-target="#delete-card"
+                               href="#">Delete</a>
+                            <div class="modal fade" id="delete-card" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle"
+                                 style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content rounded shadow border-0">
+                                        <div class="modal-header"><h5 class="modal-title" id="exampleModalCenterTitle"
+                                                                      th:text="#{card.delete.confirmation.title}"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="bg-white p-3 rounded box-shadow">
+                                                <div class="alert alert-danger alert-dismissible fade show"
+                                                     role="alert"><strong
+                                                        th:text="#{card.delete.confirmation.warning}"></strong>
+                                                    <span class="text-white"
+                                                       th:text="#{card.delete.confirmation.textOne}"></span>
+                                                </div>
+                                                <p class="text-muted mb-0"
+                                                   th:text="#{card.delete.confirmation.textTwo}"></p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                    th:text="#{card.delete.confirmation.close}"></button>
+                                            <form th:action="@{'/user/cards/' + ${card.id} + '/delete'}" method="post">
+                                                <input class="btn btn-secondary" th:type="submit"
+                                                       th:value="#{card.delete}">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+
+</body>
+</html>
+

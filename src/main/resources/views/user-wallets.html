@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallets List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/layout :: css-sheets"></div>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<section class="bg-half bg-light">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title" th:text="#{wallet.list}"></h4>
+                        </div>
+                    </div>  <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div th:if="${presentableWalletDtos.isEmpty()}">
+            <h2 th:text="#{wallet.noWallets}" th:align="center"></h2>
+        </div>
+        <div th:unless="${presentableWalletDtos.isEmpty()}">
+
+            <div class="col-md-12">
+                <div th:if="${error} != null"
+                     class="alert alert-danger alert-pills">
+                                            <span class="badge badge-danger rounded"
+                                                  th:text="#{wallet.error}"> </span>
+                    <span class="alert-content" th:text="${error}"></span>
+                </div>
+            </div>
+            <div class="table-responsive bg-white shadow rounded">
+                <table class="table mb-0 table-center">
+                    <thead>
+                    <tr>
+                        <th th:text="#{wallet.list.name}">Name</th>
+                        <th th:text="#{wallet.list.amount}">Amount</th>
+                        <th th:text="#{wallet.list.makeDefault}">Make default</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="wallet : ${presentableWalletDtos}">
+                        <td th:text="${wallet.name}">Name</td>
+                        <td th:text="${wallet.amount}" class="currency-format">Amount</td>
+                        <td>
+                            <form th:if="${wallet.defaultWallet} == false"
+                                  th:action="@{'/user/wallets/' + ${wallet.id} + '/make-default'}" method="post">
+                                <input class="btn btn-primary" th:type="submit" th:value="#{wallet.list.makeDefault}">
+                            </form>
+                            <div th:unless="${wallet.defaultWallet} == false">
+                                <p class="btn btn-success" th:text="#{wallet.list.alreadyDefault}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/layout :: js-scripts"></div>
+
+</body>
+</html>
+
