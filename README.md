@@ -1,6 +1,4 @@
-# Alpha 16 / Team 1
-
-## Project: Virtual Wallet Web Application, Final Project
+## Final Project at Telerik Academy: Virtual Wallet Web Application
 ![](application-screenshots/logo.PNG)
 
 ### Link to the deployed project in AWS: [http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/*](http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/)
