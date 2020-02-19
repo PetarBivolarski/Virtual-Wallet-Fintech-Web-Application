@@ -5,9 +5,7 @@
 
 ### Link to the deployed project in AWS: [http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/*](http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/)
 *User registration is fully functional, as well as updating profile, and creating cards/wallets. Topping up wallets is not possible, as there is no connection to the external "banking" API provided to us for the purpose of the project.*
-### Link to our: [Trello board](https://trello.com/b/UwNma5z6/virtualwallet)
-### Link to our: [Swagger*](http://localhost:8080/swagger-ui.html)
-*The link to Swagger will be active once the application runs.*
+*I am happy to provide commit history upon request.*
 
 ### Short description: 
 We have developed a fintech web application, where users can send money online through their virtual wallets. Users can create their own virtual wallets, add credit cards and top-up money from an external "banking" API that our system uses. They can then send money from their wallets to other users. There a number of features implemented, such as:
