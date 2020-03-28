@@ -1,9 +1,6 @@
 ## Final Team Project at Telerik Academy: Virtual Wallet Web Application
 ![](application-screenshots/logo.PNG)
 
-### Link to the deployed project in AWS: [http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/*](http://virtualwallet-env.efysmek5yx.eu-central-1.elasticbeanstalk.com/)
-*User registration is fully functional, as well as updating profile, and creating cards/wallets. Topping up wallets is not possible, as there is no connection to the external "banking" API provided to us for the purpose of the project.*
-
 *I am happy to provide the commit history upon request.*
 
 ### Short description: 
